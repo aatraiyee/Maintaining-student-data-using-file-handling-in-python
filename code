@@ -1,0 +1,184 @@
+while True:
+    print("1. Insert data")
+    print("2. Display records")
+    print("3. How many records available")
+    print("4. Delete data")
+    print("5. Modify data")
+    print("6. Exit")
+    choice = input("Enter your choice: ")
+        
+    if choice == 1:
+        stud = open("data.txt","a")
+        sr = input("Enter roll number: ")
+        sn = input("Enter the name: ")
+        m1 = input("Enter physics marks: ")
+        m2 = input("Enter chemistry marks: ")
+        m3 = input("Enter maths marks: ")
+        total = m1 + m2 + m3
+        p = (total * 100)/300
+       
+        if m1 >= 35 and m2 >= 35 and m3 >= 35:
+            if p >= 35 and p < 45:
+                p1 = "3rd division"
+            elif p >= 45 and p < 60:
+                p1 = "2nd division"
+            elif p >= 60 and p < 75:
+                p1 = "1st division"
+            else:
+                p1 = "Distinction"
+        else:
+            if m1 < 35 and m2 >= 35 and m3 >= 35:
+                if m1 >= 30:
+                    p1 = "Pass with grace " + str(35 - m1) + " marks"
+                    m1 = m1 + (35-m1)
+                else:
+                    p1 = "Supplementary in physics"
+            elif m1 >= 35 and m2 < 35 and m3 >= 35:
+                if m2 >= 30:
+                    p1 = "Pass with grace " + str(35 - m2) + " marks"
+                    m2 = m2 + (35-m2)
+                else:
+                    p1 = "Supplementary in chemistry"
+            elif m1 >= 35 and m2 >= 35 and m3 < 35:
+                if m3 >= 30:
+                    p1 = "Pass with grace " + str(35 - m3) + " marks"
+                    m3 = m3 + (35-m3)
+                else:
+                    p1 = "Supplementary in maths"
+            else:
+                p1 = "Fail"
+        stud.write(str(sr) + " " + sn + " " + str(m1) + " " + str(m2) + " " + str(m3) + " " + str(total) + " " + str(p) + str(p1) + "\n")
+        stud.close()
+    elif choice == 2:
+        c1=0
+        while c1!=3:
+            print("1. Display specific record")
+            print("2. Display all records")
+            print("3 Exit")
+            c1 = input("Enter your choice: ")
+            if c1 == 1:
+                u = input("Enter the student roll number whose data you want to access: ")
+                stud = open("data.txt", "r")
+                f = 0
+                while True:
+                    d = stud.readline()
+                    if not d:
+                        break
+                    record_data = d.strip().split()
+                    if int(record_data[0]) == u:
+                        f = 1
+                        print(d)
+                        break
+                if f == 0:
+                    print("Not found")
+                stud.close()
+
+            elif c1 == 2:
+                stud = open("data.txt", "r")
+                while True:
+                    d = stud.readline()
+                    if not d:
+                        break
+                    print(d)
+                stud.close()
+               
+    elif choice == 3:
+        record_count = sum(1 for line in open("data.txt", 'r'))
+        print("Number of records in the file:", record_count)
+
+    elif choice == 4:
+        while True:
+            print("1. Delete whole data")
+            print("2. Delete specific data")
+            c2 = input("Enter your choice: ")
+
+            if c2 == 1:
+                stud = open("data.txt", "w")
+                stud.close()
+                print("Data deleted successfully")
+                break
+
+            elif c2 == 2:
+                u1 = input("Enter the student roll number whose data you want to delete: ")
+                stud = open("data.txt", "r")
+                stud1 = open("data_temp.txt", "w")
+                f = 0
+                for d in stud:
+                    record_data = d.strip().split()
+                    if int(record_data[0]) != u1:
+                        stud1.write(d)
+                    else:
+                        f = 1
+                stud.close()
+                stud1.close()
+                if f == 0:
+                    print("Data not found")
+                else:
+                    print("Data deleted successfully")
+                    data_file = open("data.txt", "w")
+                    temp_file = open("data_temp.txt", "r")
+                    for line in temp_file:
+                        data_file.write(line)
+                    data_file.close()
+                    temp_file.close()
+                break
+
+    elif choice == 5:
+        u2 = input("Enter student roll number whose data you want to modify: ")
+        stud = open("data.txt", "r")
+        stud1 = open("data_temp.txt", "w")
+        f = 0
+        for d in stud:
+            record_data = d.strip().split()
+            if int(record_data[0]) == u2:
+                sr = input("Enter roll number: ")
+                sn = input("Enter the name: ")
+                m1 = int(input("Enter physics marks: "))
+                m2 = int(input("Enter chemistry marks: "))
+                m3 = int(input("Enter maths marks: "))
+                total = m1 + m2 + m3
+                p = (total * 100)/300
+
+                if m1 >= 35 and m2 >= 35 and m3 >= 35:
+                    if p >= 35 and p < 45:
+                        p1 = "3rd division"
+                    elif p >= 45 and p < 60:
+                        p1 = "2nd division"
+                    elif p >= 60 and p < 75:
+                        p1 = "1st division"
+                    else:
+                        p1 = "Distinction"
+                else:
+                    if m1 < 35 and m2 >= 35 and m3 >= 35:
+                        if m1 >= 30:
+                            p1 = "Pass with grace " + str(35 - m1) + " marks"
+                            m1 = m1 + (35 - m1)
+                        else:
+                            p1 = "Supplementary in physics"
+                    elif m1 >= 35 and m2 < 35 and m3 >= 35:
+                        if m2 >= 30:
+                            p1 = "Pass with grace " + str(35 - m2) + " marks"
+                            m2 = m2 + (35 - m2)
+                        else:
+                            p1 = "Supplementary in chemistry"
+                    elif m1 >= 35 and m2 >= 35 and m3 < 35:
+                        if m3 >= 30:
+                            p1 = "Pass with grace " + str(35 - m3) + " marks"
+                            m3 = m3 + (35 - m3)
+                        else:
+                            p1 = "Supplementary in maths"
+                    else:
+                        p1 = "Fail"
+                stud1.write(str(sr) + " " + sn + " " + str(m1) + " " + str(m2) + " " + str(m3) + " " + str(total) + " " + str(p) + str(p1) + "\n")
+                f = 1
+            else:
+                stud1.write(d)
+        stud.close()
+        stud1.close()
+        if f == 0:
+            print("Data not found")
+        else:
+            print("Data modified successfully")
+    else:
+        print("bye")
+        break
